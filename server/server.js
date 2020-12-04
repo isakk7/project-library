@@ -15,6 +15,9 @@ app.get('/', function(req, res) {
 });
 
 app.use(require('./routes/usuario'));
+app.use(require('./routes/categoria'));
+app.use(require('./routes/login'));
+app.use(require('./routes/producto'));
 
 mongoose.connect('mongodb://localhost:27017/cafeteria', {
     useNewUrlParser: true,
@@ -29,4 +32,3 @@ mongoose.connect('mongodb://localhost:27017/cafeteria', {
 app.listen(process.env.PORT, () => {
     console.log('El servidor esta en linea por el puerto ', process.env.PORT);
 });
-
