@@ -3,12 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', function(req, res) {
     res.send('<h1>Bienvenido a mi servidor REST</h1>');
@@ -19,7 +21,7 @@ app.use(require('./routes/categoria'));
 app.use(require('./routes/login'));
 app.use(require('./routes/producto'));
 
-mongoose.connect('mongodb+srv://admin:Zamora022016@cluster0.ap0cp.mongodb.net/cafeteria', {
+mongoose.connect('mongodb+srv://admin:12345678Aa@cluster0.wtcck.mongodb.net/cafeteria', {
     
     useNewUrlParser: true,
     useCreateIndex: true,

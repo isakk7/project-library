@@ -24,7 +24,7 @@ app.get('/usuario', function(req, res) {
                 ok: true,
                 msg: 'Lista de usuarios obtenida con exito',
                 conteo: usuario.length,
-                usuarios
+                usuario
             });
         });
 });
