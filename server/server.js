@@ -20,6 +20,7 @@ app.use(require('./routes/login'));
 app.use(require('./routes/producto'));
 
 mongoose.connect('mongodb+srv://admin:Zamora022016@cluster0.ap0cp.mongodb.net/cafeteria', {
+    
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
