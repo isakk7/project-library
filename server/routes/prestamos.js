@@ -1,17 +1,18 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const app = express();
-const prestamo = require('../models/prestamos');
+const Prestamo = require('../models/prestamos');
 
-app.get('/prestamo', (req, res) => {
+app.get('/prestamo', function (req, res){
     let desde = req.query.desde || 0;
     let hasta = req.query.hasta || 5;
 
-    prestamo.find({})
+    Prestamo.find({estado: true })
         .skip(Number(desde))
         .limit(Number(hasta))
         .populate('nombre', 'email ')
-        .exec((err, categorias) => {
+        .exec((err, prestamo) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
@@ -56,9 +57,9 @@ app.post('/prestamos', (req, res) => {
 
 app.put('/prestamo/:id', (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'email','telefono','libro']);
+    let body = _.pick(req.body, ['nombre', 'email']);
 
-    prestamos.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, catDB) => {
+    Prestamos.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, catDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
