@@ -21,7 +21,7 @@ app.use(require('./routes/libros'));
 app.use(require('./routes/login'));
 app.use(require('./routes/prestamos'));
 
-mongoose.connect('mongodb+srv://admin:12345678Aa@cluster0.wtcck.mongodb.net/library', {
+mongoose.connect('mongodb+srv://admin:12345678Aa@cluster0.wtcck.mongodb.net/cafeteria', {
     
     useNewUrlParser: true,
     useCreateIndex: true,
