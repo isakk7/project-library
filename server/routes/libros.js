@@ -32,7 +32,6 @@ app.get('/libros', function (req, res) {
 app.post('/libros', function(req, res) {
     let body = req.body;
     let usr = new Libros({
-        clave: body.clave,
         nombre: body.nombre,
         precioUni: body.precioUni,
         categoria: body.categoria,
