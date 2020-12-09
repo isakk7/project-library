@@ -31,14 +31,14 @@ app.get('/prestamos', function (req, res){
 
 app.post('/prestamos', function (req, res) {
     let body = req.body;
-    let cat = new prestamos({
+    let usr = new prestamos({
         nombre: req.body.nombre,
         email: req.body.email,
         telefono: req.body.telefono,
         libro: req.body.libro,
     });
 
-    cat.save((err, catDB) => {
+    usr.save((err, usrDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -50,7 +50,7 @@ app.post('/prestamos', function (req, res) {
         res.json({
             ok: true,
             msg: 'Prestamo insertadO con exito',
-            catDB
+            usrDB
         });
     });
 });
@@ -59,7 +59,8 @@ app.put('/prestamo/:id', function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email']);
 
-    Prestamos.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, catDB) => {
+    Prestamos.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' },
+     (err, usrDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -71,7 +72,7 @@ app.put('/prestamo/:id', function(req, res) {
         res.json({
             ok: true,
             msg: 'La prestamo fue actualizado con exito',
-            prestamos: catDB
+            prestamos: usrDB
         });
     });
 });
@@ -79,7 +80,7 @@ app.put('/prestamo/:id', function(req, res) {
 app.delete('/prestamo/:id', function(req, res) {
     let id = req.params.id;
 
-    Prestamos.findByIdAndRemove(id, { context: 'query' }, (err, catDB) => {
+    Prestamos.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, usrDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -90,8 +91,8 @@ app.delete('/prestamo/:id', function(req, res) {
 
         res.json({
             ok: true,
-            msg: 'El prestamo fue eliminado con exito',
-            catDB
+            msg: 'Libro eliminado con exito',
+            usrDB
         });
     });
 });
