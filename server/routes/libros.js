@@ -1,99 +1,119 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const app = express();
 const Libros = require('../models/libros');
 
-app.get('/libros', (req, res) => {
+app.get('/libros', function (req, res) {
     let desde = req.query.desde || 0;
     let hasta = req.query.hasta || 5;
 
-    Libros.find({})
+    Libros.find({ estado: true })
         .skip(Number(desde))
         .limit(Number(hasta))
-        //.populate('usuario', 'nombre email')
         .exec((err, libros) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Ocurrió un error al momento de consultar',
+                    msg: 'Ocurrio un error al momento de consultar',
                     err
                 });
             }
 
             res.json({
                 ok: true,
-                msg: 'Lista de libros obtenida con éxito',
-                conteo: productos.length,
+                msg: 'Lista de libros obtenida con exito',
+                conteo: libros.length,
                 libros
             });
         });
 });
 
-app.post('/libros', (req, res) => {
-    let pro = new Libros({
-        clave: req.body.clave,
-        nombre: req.body.nombre,
-        precioUni: req.body.precioUni,
-        categoria: req.body.categoria,
-        disponible: req.body.disponible
+app.post('/libros', function(req, res) {
+    let body = req.body;
+    let usr = new Libros({
+        clave: body.clave,
+        nombre: body.nombre,
+        precioUni: body.precioUni,
+        categoria: body.categoria,
+        disponible: body.disponible
     });
 
-    pro.save((err, proDB) => {
+    usr.save((err, usrDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Error al insertar un libro',
+                msg: 'Ocurrio un error',
                 err
             });
         }
 
         res.json({
             ok: true,
-            msg: 'Libro insertado con éxito',
-            proDB
+            msg: 'Libro insertado con exito',
+            usrDB
         });
     });
 });
 
-app.put("/libros/:id", function (req, res) {
+app.put('/libros/:id', function(req, res) {
     let id = req.params.id;
-    let body = _.pick(req.body, ['disponible', 'precioUni']);
+    let body = _.pick(req.body, ['nombre', 'clave']);
 
-    Libros.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, proDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'Ocurrió un error al momento de actualizar',
-                err
+    Libros.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' },
+        (err, usrDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Ocurrio un error al momento de actualizar',
+                    err
+                });
+            }
+
+            res.json({
+                ok: true,
+                msg: 'Libro actualizado con exito',
+                libros: usrDB
             });
-        }
-
-        res.json({
-            ok: true,
-            msg: 'Producto actualizado con éxito',
-            producto: proDB
-        })
-    });
+        });
 });
 
-app.delete("/libros/:id", function (req, res) {
+app.delete('/libros/:id', function(req, res) {
+    // let id = req.params.id;
+
+    // Usuario.deleteOne({ _id: id }, (err, usuarioBorrado) => {
+    //     if (err) {
+    //         return res.status(400).json({
+    //             ok: false,
+    //             msg: 'Ocurrio un error al momento de elimar',
+    //             err
+    //         });
+    //     }
+
+    //     res.json({
+    //         ok: true,
+    //         msg: 'Usuario eliminado con exito',
+    //         usuarioBorrado
+    //     });
+    // });
+
     let id = req.params.id;
 
-    Libros.findByIdAndUpdate(id, { context: 'query' }, (err, proDB) => {
+    Libros.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, usrDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Ocurrió un error al momento de eliminar',
+                msg: 'Ocurrio un error al momento de eliminar',
                 err
             });
         }
 
         res.json({
             ok: true,
-            msg: 'Producto eliminado con éxito',
-            proDB
+            msg: 'Libro eliminado con exito',
+            usrDB
         });
-    })
+    });
 });
 
 module.exports = app;
