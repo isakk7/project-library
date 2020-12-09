@@ -17,9 +17,9 @@ app.get('/', function(req, res) {
 });
 
 app.use(require('./routes/usuario'));
-app.use(require('./routes/categoria'));
+app.use(require('./routes/libros'));
 app.use(require('./routes/login'));
-app.use(require('./routes/producto'));
+app.use(require('./routes/prestamos'));
 
 mongoose.connect('mongodb+srv://admin:12345678Aa@cluster0.wtcck.mongodb.net/cafeteria', {
     
