@@ -79,23 +79,7 @@ app.put('/libros/:id', function(req, res) {
 });
 
 app.delete('/libros/:id', function(req, res) {
-    // let id = req.params.id;
-
-    // Usuario.deleteOne({ _id: id }, (err, usuarioBorrado) => {
-    //     if (err) {
-    //         return res.status(400).json({
-    //             ok: false,
-    //             msg: 'Ocurrio un error al momento de elimar',
-    //             err
-    //         });
-    //     }
-
-    //     res.json({
-    //         ok: true,
-    //         msg: 'Usuario eliminado con exito',
-    //         usuarioBorrado
-    //     });
-    // });
+   
 
     let id = req.params.id;
 

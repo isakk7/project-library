@@ -4,15 +4,14 @@ const _ = require('underscore');
 const app = express();
 const Prestamo = require('../models/prestamos');
 
-app.get('/prestamo', function (req, res){
+app.get('/prestamos', function (req, res){
     let desde = req.query.desde || 0;
     let hasta = req.query.hasta || 5;
 
     Prestamo.find({estado: true })
         .skip(Number(desde))
         .limit(Number(hasta))
-        .populate('nombre', 'email ')
-        .exec((err, prestamo) => {
+        .exec((err, prestamos) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
@@ -30,8 +29,9 @@ app.get('/prestamo', function (req, res){
         });
 });
 
-app.post('/prestamos', (req, res) => {
-    let cat = new prestamo({
+app.post('/prestamos', function (req, res) {
+    let body = req.body;
+    let cat = new prestamos({
         nombre: req.body.nombre,
         email: req.body.email,
         telefono: req.body.telefono,
@@ -55,7 +55,7 @@ app.post('/prestamos', (req, res) => {
     });
 });
 
-app.put('/prestamo/:id', (req, res) => {
+app.put('/prestamo/:id', function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email']);
 
@@ -71,15 +71,15 @@ app.put('/prestamo/:id', (req, res) => {
         res.json({
             ok: true,
             msg: 'La prestamo fue actualizado con exito',
-            catDB
+            prestamos: catDB
         });
     });
 });
 
-app.delete('/prestamo/:id', (req, res) => {
+app.delete('/prestamo/:id', function(req, res) {
     let id = req.params.id;
 
-    prestamos.findByIdAndRemove(id, { context: 'query' }, (err, catDB) => {
+    Prestamos.findByIdAndRemove(id, { context: 'query' }, (err, catDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
