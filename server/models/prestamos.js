@@ -17,7 +17,7 @@ let prestamosSchema = new Schema({
     },
     libro: {
         type: String,
-        default: true
+        required: [true, ' Su libro es obligatorio']
     }
 });
 
