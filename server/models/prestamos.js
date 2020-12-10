@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let productoSchema = new Schema({
+let prestamosSchema = new Schema({
     nombre: {
         type: String,
         required: [true, 'Su nombre es obligatorio'],
@@ -21,4 +21,4 @@ let productoSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Prestamo', productoSchema);
+module.exports = mongoose.model('Prestamos', prestamosSchema);

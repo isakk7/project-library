@@ -2,13 +2,13 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const app = express();
-const Prestamo = require('../models/prestamos');
+const Prestamos = require('../models/prestamos');
 
 app.get('/prestamos', function (req, res){
     let desde = req.query.desde || 0;
     let hasta = req.query.hasta || 5;
 
-    Prestamo.find({estado: true })
+    Prestamos.find({estado: true })
         .skip(Number(desde))
         .limit(Number(hasta))
         .exec((err, prestamos) => {
@@ -32,10 +32,10 @@ app.get('/prestamos', function (req, res){
 app.post('/prestamos', function (req, res) {
     let body = req.body;
     let usr = new prestamos({
-        nombre: req.body.nombre,
-        email: req.body.email,
-        telefono: req.body.telefono,
-        libro: req.body.libro,
+        nombre: body.nombre,
+        email: body.email,
+        telefono: body.telefono,
+        libro: body.libro
     });
 
     usr.save((err, usrDB) => {
@@ -55,7 +55,7 @@ app.post('/prestamos', function (req, res) {
     });
 });
 
-app.put('/prestamo/:id', function(req, res) {
+app.put('/prestamos/:id', function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email']);
 
@@ -77,7 +77,7 @@ app.put('/prestamo/:id', function(req, res) {
     });
 });
 
-app.delete('/prestamo/:id', function(req, res) {
+app.delete('/prestamos/:id', function(req, res) {
     let id = req.params.id;
 
     Prestamos.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, usrDB) => {
