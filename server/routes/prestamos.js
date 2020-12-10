@@ -31,7 +31,7 @@ app.get('/prestamos', function (req, res){
 
 app.post('/prestamos', function (req, res) {
     let body = req.body;
-    let usr = new prestamos({
+    let usr = new Prestamos({
         nombre: body.nombre,
         email: body.email,
         telefono: body.telefono,
